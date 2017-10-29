@@ -12,14 +12,16 @@ const (
 	kE
 	kS
 	kW
-	kNESW						// for mod operations
+	kNESW // for mod operations
 )
+
 var dTag = map[int]string{
 	kN: "N",
 	kE: "E",
 	kS: "S",
 	kW: "W",
 }
+
 func opposite(d int) int {
 	return (d + 2) % kNESW
 }
@@ -44,7 +46,6 @@ func next(r int, c int, dir int) (nr int, nc int) {
 	}
 	return
 }
-
 
 func isOpen(s Space, nr int, nc int) (o bool) {
 	o = nr >= 0 && nc >= 0 && nr < len(s) && nc < len(s[nr]) && s[nr][nc] == 0
@@ -71,9 +72,10 @@ func startClean(s Space, r int, c int, moves chan<- string) {
 
 func main() {
 	room := Space{
-		{0, 0, 0, 1, 1},
+		{0, 0, 0, 1, 0, 0},
 		{0, 1, 0, 0, 0},
-		{0, 1, 1, 0, 1},
+		{0, 1},
+		{0},
 	}
 	moves := make(chan string)
 	go startClean(room, 1, 2, moves)
