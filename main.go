@@ -65,11 +65,6 @@ func clean(s Space, r int, c int, moves chan<- string) {
 	}
 }
 
-func startClean(s Space, r int, c int, moves chan<- string) {
-	clean(s, r, c, moves)
-	close(moves)
-}
-
 func main() {
 	room := Space{
 		{0, 0, 0, 1, 0, 0},
@@ -78,7 +73,10 @@ func main() {
 		{0},
 	}
 	moves := make(chan string)
-	go startClean(room, 1, 2, moves)
+	go func() {
+		clean(room, 1, 2, moves)
+		close(moves)
+	}()
 	for m := range moves {
 		fmt.Print(m)
 	}
